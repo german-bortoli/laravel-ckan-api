@@ -1,5 +1,14 @@
 # Laravel api client for ckan
 
+## WIP
+
+This package is under development
+
+**TODO:**
+
+ - Implement latest api endpoints (http://docs.ckan.org/en/latest/api/) rather than rest
+ - Implement unit tests.
+
 ## Installation
 
 ### Add to composer

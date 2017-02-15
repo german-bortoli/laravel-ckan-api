@@ -13,6 +13,13 @@ class BaseRepository
     protected $uri = '';
 
     /**
+     * Per page, paginated results
+     *
+     * @var int
+     */
+    protected $per_page = 15;
+
+    /**
      * @var Client
      */
     protected $client;
