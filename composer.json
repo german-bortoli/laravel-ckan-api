@@ -38,5 +38,6 @@
     "phpunit/phpunit": "^5.1",
     "mockery/mockery": "^0.9.4",
     "laravel/laravel": "5.4.*"
-  }
+  },
+  "minimum-stability": "dev"
 }
