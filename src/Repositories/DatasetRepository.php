@@ -17,7 +17,7 @@ class DatasetRepository extends BaseRepository
      *
      * @return array
      */
-    public function all()
+    public function all($start = 0)
     {
         // Override method in order to get private datasets
         $oldUri = $this->getUri();
@@ -27,6 +27,8 @@ class DatasetRepository extends BaseRepository
         $response = $this->client->get($this->getUri(), [
             'query' => [
                 'include_private' => 'True',
+                'rows' => $this->per_page,
+                'start' => $start,
             ],
         ]);
 

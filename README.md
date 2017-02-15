@@ -65,7 +65,9 @@ CKAN_API_KEY can be found inside your ckan user profile.
 ```php
 use CkanApi
 
-CkanApi::dataset()->all();
+// Get paginated results
+CkanApi::dataset()->all($start); // Start variable works only for datasets for now
+
 CkanApi::dataset()->find('ref-id');
 CkanApi::dataset()->create(['owner_org' => 'my-org', 'name' => 'super-title','title' => 'SUPER API TITLE']);
 CkanApi::dataset()->update([...]);

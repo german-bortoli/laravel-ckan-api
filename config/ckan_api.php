@@ -10,4 +10,8 @@ return [
     'url' => env('CKAN_API_URL', ''),
     'api_key' => env('CKAN_API_KEY', ''),
     'api_version' => env('CKAN_API_VERSION', ''),
+
+    'repositories' => [
+        'per_page' => 20,
+    ],
 ];

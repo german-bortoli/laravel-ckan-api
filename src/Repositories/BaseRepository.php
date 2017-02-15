@@ -48,25 +48,17 @@ class BaseRepository
     public function __construct(Client $client)
     {
 
+        $this->per_page = config('ckan_api.repositories.per_page', 15);
+
         $this->setUri($this->uri);
 
         $this->client = $client;
     }
 
-    protected function setUri($uriToSet)
-    {
-        $uri = 'api/';
-        $api_version = config('ckan_api.api_version');
 
-        if (!empty($api_version)) {
-            $uri .= $api_version;
-        }
-
-        $uri .= trim(rtrim($uriToSet, '/'), '/');
-
-        $this->uri = $uri;
-    }
-
+    /**
+     * @return string
+     */
     public function getUri()
     {
         return $this->uri;
@@ -134,6 +126,24 @@ class BaseRepository
     protected function responseToJson(ResponseInterface $response)
     {
         return json_decode((string) $response->getBody(), true);
+    }
+
+    /**
+     * Set uri
+     * @param $uriToSet
+     */
+    protected function setUri($uriToSet)
+    {
+        $uri = 'api/';
+        $api_version = config('ckan_api.api_version');
+
+        if (!empty($api_version)) {
+            $uri .= $api_version;
+        }
+
+        $uri .= trim(rtrim($uriToSet, '/'), '/');
+
+        $this->uri = $uri;
     }
 
 
