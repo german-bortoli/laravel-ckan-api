@@ -1,0 +1,42 @@
+{
+  "name": "germanazo/laravel-ckan-api",
+  "description": "Laravel 5 client for CKAN Api",
+  "keywords": [
+    "laravel",
+    "api",
+    "ckan",
+    "php"
+  ],
+  "homepage": "https://github.com/pixelpeter/laravel5-genderize-api-client",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "German Bortoli",
+      "email": "germanazo@gmail.com",
+      "homepage": "https://github.com/Germanaz0",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "guzzlehttp/guzzle": "^6.2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Germanazo\\CkanApi\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Germanazo\\CkanApi\\Test\\": "tests"
+    },
+    "classmap": [
+      "tests/TestCase.php"
+    ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.1",
+    "mockery/mockery": "^0.9.4",
+    "laravel/laravel": "5.4.*"
+  }
+}
