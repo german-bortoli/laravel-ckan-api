@@ -35,6 +35,21 @@ And register facade alias in the same config file.
 php artisan vendor:publish --provider="Germanazo\CkanApi\CkanServiceProvider"
 ```
 
+### Configure Ckan API
+
+Configure the file located into `config/ckan_api.php` or if you prefer use env variables:
+ 
+```txt
+CKAN_API_URL=https://data.myckan.com
+CKAN_API_KEY={{MY SUPER SECRET API KEY}
+``` 
+
+And if you know what are you doing, then it is possible to configure the api version too:
+
+`CKAN_API_VERSION=2`
+
+CKAN_API_KEY can be found inside your ckan user profile.
+
 ### Use it:
 
 ```php
