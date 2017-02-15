@@ -47,6 +47,14 @@ class BaseRepository
      */
     public function __construct(Client $client)
     {
+
+        $this->setUri($this->uri);
+
+        $this->client = $client;
+    }
+
+    protected function setUri($uriToSet)
+    {
         $uri = 'api/';
         $api_version = config('ckan_api.api_version');
 
@@ -54,12 +62,15 @@ class BaseRepository
             $uri .= $api_version;
         }
 
-        $uri .= trim(rtrim($this->uri, '/'), '/');
+        $uri .= trim(rtrim($uriToSet, '/'), '/');
 
         $this->uri = $uri;
-        $this->client = $client;
     }
 
+    public function getUri()
+    {
+        return $this->uri;
+    }
     /**
      * Get all resources
      *

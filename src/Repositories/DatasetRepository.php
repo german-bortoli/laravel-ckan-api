@@ -20,7 +20,19 @@ class DatasetRepository extends BaseRepository
     public function all()
     {
         // Override method in order to get private datasets
-        return $this->responseToJson($this->client->get('api/action/package_search?include_private=True'));
+        $oldUri = $this->getUri();
+
+        $this->setUri('action/package_search');
+
+        $response = $this->client->get($this->getUri(), [
+            'query' => [
+                'include_private' => 'True',
+            ],
+        ]);
+
+        $this->setUri($oldUri);
+
+        return $this->responseToJson($response);
     }
 
     public function relationships($id)

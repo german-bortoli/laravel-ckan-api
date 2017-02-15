@@ -6,8 +6,9 @@ This package is under development
 
 **TODO:**
 
- - Implement latest api endpoints (http://docs.ckan.org/en/latest/api/) rather than rest
+ - Implement latest api endpoints (http://docs.ckan.org/en/latest/api/) rather than rest.
  - Implement unit tests.
+ - Documment the package.
 
 ## Installation
 
