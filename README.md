@@ -39,6 +39,7 @@ php artisan vendor:publish --provider="Germanazo\CkanApi\CkanServiceProvider"
 
 ```php
 use CkanApi
+
 CkanApi::dataset()->all();
 CkanApi::dataset()->find('ref-id');
 CkanApi::dataset()->create(['owner_org' => 'my-org', 'name' => 'super-title','title' => 'SUPER API TITLE']);
@@ -56,5 +57,7 @@ CkanApi::revision()
 CkanApi::license()
 CkanApi::util()
 ```
+
+All resources has enabled the methods, all, find, create, update, delete, but not every endpoint allows it, so it will throw an exception.
 
 For more information read [http://docs.ckan.org/en/latest/api/legacy-api.html#model-resources](http://docs.ckan.org/en/latest/api/legacy-api.html#model-resources)
