@@ -71,6 +71,9 @@ CkanApi::dataset()->show('ref-id', ['include_tracking' => true]);
 CkanApi::dataset()->create(['owner_org' => 'my-org', 'name' => 'super-title','title' => 'SUPER API TITLE']);
 CkanApi::dataset()->update(['id' => 'ref-id', ...]);
 CkanApi::dataset()->delete('ref-id');
+
+//Only for dataset 
+CkanApi::dataset()->revision_list('ref-id');
 ```
 
 All possibles resources are:
