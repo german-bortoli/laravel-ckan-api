@@ -86,6 +86,6 @@ CkanApi::util()
 
 All resources has enabled the methods, all, find, create, update, delete, but not every endpoint allows it, so it will throw an exception.
 
-See more examples at [example/simple_routing.md](example/simple_routing.md)
+See more examples at [docs/simple_routing.md](docs/simple_routing.md)
 
 For more information read [http://docs.ckan.org/en/latest/api/](http://docs.ckan.org/en/latest/api/)
