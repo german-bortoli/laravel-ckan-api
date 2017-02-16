@@ -67,9 +67,9 @@ use CkanApi
 CkanApi::dataset()->all(['start' => $start]); // Start variable works only for datasets for now
 
 // Second argument is to define extra params from *_show
-CkanApi::dataset()->show('ref-id', []);
+CkanApi::dataset()->show('ref-id', ['include_tracking' => true]);
 CkanApi::dataset()->create(['owner_org' => 'my-org', 'name' => 'super-title','title' => 'SUPER API TITLE']);
-CkanApi::dataset()->update([...]);
+CkanApi::dataset()->update(['id' => 'ref-id', ...]);
 CkanApi::dataset()->delete('ref-id');
 ```
 

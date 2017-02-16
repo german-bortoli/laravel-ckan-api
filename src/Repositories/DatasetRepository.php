@@ -21,7 +21,7 @@ class DatasetRepository extends BaseRepository
     public function all($data = [])
     {
         $defaults = [
-            'include_private' => 'True',
+            'include_private' => true,
             'rows' => $this->per_page,
             'start' => 0,
         ];
