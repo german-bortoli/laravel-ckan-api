@@ -77,7 +77,6 @@ Route::group(['prefix' => 'groups'], function () {
             'offset' => $request->input('offset', 0),
         ];
 
-        // It uses http://docs.ckan.org/en/latest/api/#ckan.logic.action.get.package_search parameters
         return CkanApi::group()->all($data);
     });
 
@@ -114,7 +113,7 @@ Route::group(['prefix' => 'licenses'], function () {
 
         $data = [];
 
-        // It uses http://docs.ckan.org/en/latest/api/#ckan.logic.action.get.package_search parameters
+
         return CkanApi::license()->all($data);
     });
 
@@ -128,7 +127,7 @@ Route::group(['prefix' => 'revisions'], function () {
     Route::get('/', function (Request $request) {
 
         $data = ['sort' => 'time_desc'];
-        // It uses http://docs.ckan.org/en/latest/api/#ckan.logic.action.get.package_search parameters
+
         return CkanApi::revision()->all($data);
     });
 
@@ -141,7 +140,7 @@ Route::group(['prefix' => 'tags'], function() {
     Route::get('/', function (Request $request) {
 
         $data = ['limit' => '12', 'offset' => $request->input('offset', 0)];
-        // It uses http://docs.ckan.org/en/latest/api/#ckan.logic.action.get.package_search parameters
+        
         return CkanApi::tag()->all($data);
     });
 
