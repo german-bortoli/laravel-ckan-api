@@ -6,7 +6,7 @@ This package is under development
 
 **TODO:**
  - Implement unit tests.
- - Documment the package.
+ - Package documentation.
 
 ## Installation
 
@@ -84,7 +84,7 @@ CkanApi::license()
 CkanApi::util()
 ```
 
-All resources has enabled the methods, all, find, create, update, delete, but not every endpoint allows it, so it will throw an exception.
+All resources has enabled the methods, all, show, create, update, delete, but not every endpoint allows it, so it will throw an exception.
 
 See more examples at [docs/simple_routing.md](docs/simple_routing.md)
 
