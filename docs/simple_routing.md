@@ -140,7 +140,7 @@ Route::group(['prefix' => 'tags'], function() {
     Route::get('/', function (Request $request) {
 
         $data = ['limit' => '12', 'offset' => $request->input('offset', 0)];
-        
+
         return CkanApi::tag()->all($data);
     });
 
@@ -156,6 +156,50 @@ Route::group(['prefix' => 'tags'], function() {
 
     Route::delete('/', function() {
         return CkanApi::tag()->delete('c7d90db1-ad3e-4db3-a599-38b4588e90a8');
+    });
+});
+
+
+
+/**
+ * CKAN ORGANIZATIONS
+ */
+Route::group(['prefix' => 'organizations'], function () {
+    Route::get('/', function (Request $request) {
+
+        $data = [
+            'start' => $request->input('offset', 0),
+        ];
+
+        return CkanApi::organization()->all($data);
+    });
+
+
+    Route::get('/{id}', function ($id) {
+        return CkanApi::organization()->show($id, [
+            'include_extras' => true,
+            'include_users' => true,
+            'include_tags' => true,
+        ]);
+    });
+
+    Route::post('/', function () {
+        return CkanApi::organization()->create([
+            'display_name' => 'Ckan Api Test' . rand(1, 1000),
+            'name' => 'ckan-api-test-' . rand(1, 1000),
+        ]);
+    });
+
+    Route::put('/', function () {
+        return CkanApi::organization()->update([
+            'id' => 'ckan-api-test-59',
+            'display_name' => 'Org updated from api',
+            'description' => 'This is an organization, was updated from api',
+        ]);
+    });
+
+    Route::delete('/', function () {
+        return CkanApi::organization()->delete('ckan-api-test-59');
     });
 });
 ```

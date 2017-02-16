@@ -7,6 +7,7 @@ use Germanazo\CkanApi\Factories\RepositoryFactory;
 use Germanazo\CkanApi\Repositories\DatasetRepository;
 use Germanazo\CkanApi\Repositories\GroupRepository;
 use Germanazo\CkanApi\Repositories\LicenseRepository;
+use Germanazo\CkanApi\Repositories\OrganizationRepository;
 use Germanazo\CkanApi\Repositories\RevisionRepository;
 use Germanazo\CkanApi\Repositories\TagRepository;
 use GuzzleHttp\Client;
@@ -90,11 +91,11 @@ class CkanApiClient
 
 
     /**
-     * Build util repository
+     * Build organization repository
      */
-    public function util()
+    public function organization()
     {
-        throw new MethodNotImplementedException('Method: utils is not yet implemented');
+        return $this->repositoryFactory(OrganizationRepository::class);
     }
 
     /**
