@@ -10,49 +10,39 @@ use Germanazo\CkanApi\Exceptions\MethodNotImplementedException;
  */
 class DatasetRepository extends BaseRepository
 {
-    protected $uri = 'rest/dataset';
+    protected $action_name = 'package';
 
     /**
-     * Get all resources
+     * @param array $data
+     * @link http://docs.ckan.org/en/latest/api/#ckan.logic.action.get.package_search
      *
      * @return array
      */
-    public function all($start = 0)
+    public function all($data = [])
     {
-        // Override method in order to get private datasets
-        $oldUri = $this->getUri();
+        $defaults = [
+            'include_private' => 'True',
+            'rows' => $this->per_page,
+            'start' => 0,
+        ];
 
-        $this->setUri('action/package_search');
+        $data = array_merge($defaults, $data);
 
-        $response = $this->client->get($this->getUri(), [
-            'query' => [
-                'include_private' => 'True',
-                'rows' => $this->per_page,
-                'start' => $start,
-            ],
-        ]);
-
-        $this->setUri($oldUri);
-
-        return $this->responseToJson($response);
+        return parent::search($data);
     }
 
-    public function relationships($id)
+    /**
+     * Return a dataset (package)’s revisions as a list of dictionaries.
+     *
+     * @param string $id
+     * @link http://docs.ckan.org/en/latest/api/#ckan.logic.action.get.package_revision_list
+     *
+     * @return array
+     */
+    public function revision_list($id)
     {
-        throw new MethodNotImplementedException('Method: relationships is not yet implemented');
-        // rest/dataset/DATASET-REF/relationships
-    }
+        $this->setActionUri(__FUNCTION__);
 
-    public function relationshipType($id)
-    {
-        throw new MethodNotImplementedException('Method: relationshipType is not yet implemented');
-        // RELATIONSHIP-TYPE: ‘depends_on’, ‘dependency_of’, ‘derives_from’, ‘has_derivation’, ‘child_of’, ‘parent_of’, ‘links_to’, ‘linked_from’.
-        // rest/dataset/DATASET-REF/RELATIONSHIP-TYPE
-    }
-
-    public function revisions()
-    {
-        throw new MethodNotImplementedException('Method: revisions is not yet implemented');
-        // rest/dataset/DATASET-REF/revisions
+        return $this->query(['id' => $id]);
     }
 }

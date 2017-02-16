@@ -1,16 +1,19 @@
 <?php
 
 namespace Germanazo\CkanApi\Repositories;
+
 use GuzzleHttp\Client;
+use Germanazo\CkanApi\Traits\RestApiTrait;
 use Psr\Http\Message\ResponseInterface;
 
 class BaseRepository
 {
+    use RestApiTrait;
     /**
      * URI Api endpoint
      * @var string
      */
-    protected $uri = '';
+    protected $action_name = '';
 
     /**
      * Per page, paginated results
@@ -47,10 +50,9 @@ class BaseRepository
      */
     public function __construct(Client $client)
     {
+        $this->per_page = config('ckan_api.repositories.per_page', $this->per_page);
 
-        $this->per_page = config('ckan_api.repositories.per_page', 15);
-
-        $this->setUri($this->uri);
+        $this->setUri("action/{$this->action_name}_{{METHOD}}");
 
         $this->client = $client;
     }
@@ -63,58 +65,23 @@ class BaseRepository
     {
         return $this->uri;
     }
-    /**
-     * Get all resources
-     *
-     * @return array
-     */
-    public function all()
-    {
-        return $this->responseToJson($this->client->get($this->uri));
-    }
 
     /**
-     * Delete a resource
-     *
-     * @param $id
-     * @return mixed
+     * Set uri
+     * @param $uriToSet
      */
-    public function find($id)
+    protected function setUri($uriToSet)
     {
-        return $this->responseToJson($this->client->get($this->uri.'/'.$id));
-    }
+        $uri_parts = [];
 
-    /**
-     * Create a resource
-     *
-     * @param array $data
-     * @return array
-     */
-    public function create(array $data = [])
-    {
-        return $this->responseToJson($this->client->post($this->uri, ['json' => $data]));
-    }
+        array_push($uri_parts, 'api');
+        array_push($uri_parts, config('ckan_api.api_version'));
+        array_push($uri_parts, trim(rtrim($uriToSet, '/'), '/'));
 
-    /**
-     * Update a resource
-     *
-     * @param array $data
-     * @return array
-     */
-    public function update(array $data = [])
-    {
-        return $this->responseToJson($this->client->put($this->uri, ['json' => $data]));
-    }
+        // Clean empty results
+        $uri_parts = array_filter($uri_parts);
 
-    /**
-     * Delete a resource
-     *
-     * @param $id
-     * @return mixed
-     */
-    public function delete($id)
-    {
-        return $this->responseToJson($this->client->delete($this->uri.'/'.$id));
+        $this->uri = implode('/', $uri_parts);
     }
 
     /**
@@ -127,24 +94,5 @@ class BaseRepository
     {
         return json_decode((string) $response->getBody(), true);
     }
-
-    /**
-     * Set uri
-     * @param $uriToSet
-     */
-    protected function setUri($uriToSet)
-    {
-        $uri = 'api/';
-        $api_version = config('ckan_api.api_version');
-
-        if (!empty($api_version)) {
-            $uri .= $api_version;
-        }
-
-        $uri .= trim(rtrim($uriToSet, '/'), '/');
-
-        $this->uri = $uri;
-    }
-
 
 }

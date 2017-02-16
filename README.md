@@ -5,8 +5,6 @@
 This package is under development
 
 **TODO:**
-
- - Implement latest api endpoints (http://docs.ckan.org/en/latest/api/) rather than rest.
  - Implement unit tests.
  - Documment the package.
 
@@ -66,12 +64,13 @@ CKAN_API_KEY can be found inside your ckan user profile.
 use CkanApi
 
 // Get paginated results
-CkanApi::dataset()->all($start); // Start variable works only for datasets for now
+CkanApi::dataset()->all(['start' => $start]); // Start variable works only for datasets for now
 
-CkanApi::dataset()->find('ref-id');
+// Second argument is to define extra params from *_show
+CkanApi::dataset()->show('ref-id', []);
 CkanApi::dataset()->create(['owner_org' => 'my-org', 'name' => 'super-title','title' => 'SUPER API TITLE']);
 CkanApi::dataset()->update([...]);
-CkanApi::dataset()->delete('super-title');
+CkanApi::dataset()->delete('ref-id');
 ```
 
 All possibles resources are:
@@ -87,4 +86,6 @@ CkanApi::util()
 
 All resources has enabled the methods, all, find, create, update, delete, but not every endpoint allows it, so it will throw an exception.
 
-For more information read [http://docs.ckan.org/en/latest/api/legacy-api.html#model-resources](http://docs.ckan.org/en/latest/api/legacy-api.html#model-resources)
+See more examples at [example/simple_routing.md](example/simple_routing.md)
+
+For more information read [http://docs.ckan.org/en/latest/api/](http://docs.ckan.org/en/latest/api/)
