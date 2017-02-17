@@ -39,7 +39,7 @@ class CkanApiClient
      * @param string $method
      * @param mixed $arguments
      * @return mixed
-     * 
+     *
      * @throws MethodNotImplementedException
      */
     public function __call($method, $arguments)
