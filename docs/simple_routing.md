@@ -8,21 +8,6 @@ This example is just a laravel route file showing the possible methods and how t
 
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 /**
  * CKAN DATASET
  */
@@ -63,6 +48,72 @@ Route::group(['prefix' => 'datasets'], function () {
 
     Route::delete('/', function () {
         return CkanApi::dataset()->delete('ece9ed37-c88d-4b53-a8ab-3b466a8f63cd');
+    });
+});
+
+
+
+/**
+ * CKAN RESOURCES
+ */
+Route::group(['prefix' => 'resources'], function () {
+    Route::get('/', function (Request $request) {
+
+        $data = [
+            'offset' => $request->input('offset', 0),
+            'query' => 'name:buenos',
+        ];
+
+        return CkanApi::resource()->all($data);
+    });
+
+
+    Route::get('/{id}', function ($id) {
+        return CkanApi::resource()->show($id, [
+            'include_extras' => true,
+            'include_users' => true,
+            'include_tags' => true,
+        ]);
+    });
+
+    Route::post('/', function () {
+
+        $data = [
+            'url' => 'https://recursos-data.buenosaires.gob.ar/ckan2/distritos-escolares/distritos-escolares.csv',
+            'clear_upload' => true,
+            'package_id' => 'ckan-api-test-338',
+            'name' => 'Buenos Aires - Distritos Escolares',
+            'format' => 'CSV',
+            'description' => 'Límites y ubicación geográfica de los distritos escolares de la Ciudad que surgieron a partir de la Ley de Educación Común (Ley N° 1.420/1884). Actualmente rige la división establecida por el Decreto Nº 7.475/80.',
+        ];
+
+        return CkanApi::resource()->create($data);
+    });
+
+    // Example upload a csv file
+    Route::post('/upload', function () {
+
+        $data = [
+            'upload' => fopen(storage_path('app/catalogo-bibliotecas.csv'), 'r'),
+//            'mimetype' => 'text/csv',
+            'package_id' => 'ckan-api-test-338',
+            'name' => 'Buenos Aires - Bibliotecas',
+            'format' => 'CSV',
+            'description' => 'Listado con ubicación geográfica de las bibliotecas de la Red del gobierno de la Ciudad Autónoma de Buenos Aires.',
+        ];
+
+        return CkanApi::resource()->create($data);
+    });
+
+    Route::put('/', function () {
+        return CkanApi::resource()->update([
+            'id' => '1abe62c3-4347-409a-8a86-6f97f2057db3',
+            'name' => 'Buenos Aires - Bibliotecas - Edited',
+        ]);
+    });
+
+    Route::delete('/', function () {
+        return CkanApi::resource()->delete('1abe62c3-4347-409a-8a86-6f97f2057db3');
     });
 });
 
@@ -168,7 +219,7 @@ Route::group(['prefix' => 'organizations'], function () {
     Route::get('/', function (Request $request) {
 
         $data = [
-            'start' => $request->input('offset', 0),
+            'offset' => $request->input('offset', 0),
         ];
 
         return CkanApi::organization()->all($data);
@@ -199,7 +250,7 @@ Route::group(['prefix' => 'organizations'], function () {
     });
 
     Route::delete('/', function () {
-        return CkanApi::organization()->delete('ckan-api-test-59');
+        return CkanApi::organization()->delete('fbd4cdad-d31d-422a-8ad1-98ee03c2423c');
     });
 });
 ```

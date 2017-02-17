@@ -4,12 +4,6 @@ namespace Germanazo\CkanApi;
 
 use Germanazo\CkanApi\Exceptions\MethodNotImplementedException;
 use Germanazo\CkanApi\Factories\RepositoryFactory;
-use Germanazo\CkanApi\Repositories\DatasetRepository;
-use Germanazo\CkanApi\Repositories\GroupRepository;
-use Germanazo\CkanApi\Repositories\LicenseRepository;
-use Germanazo\CkanApi\Repositories\OrganizationRepository;
-use Germanazo\CkanApi\Repositories\RevisionRepository;
-use Germanazo\CkanApi\Repositories\TagRepository;
 use GuzzleHttp\Client;
 
 /**
@@ -40,62 +34,23 @@ class CkanApiClient
     }
 
     /**
-     * Build dataset repository
+     * Build repositories
      *
-     * return DatasetRepository
+     * @param string $method
+     * @param mixed $arguments
+     * @return mixed
+     * 
+     * @throws MethodNotImplementedException
      */
-    public function dataset()
+    public function __call($method, $arguments)
     {
-        return $this->repositoryFactory(DatasetRepository::class);
-    }
+        $className = 'Germanazo\CkanApi\Repositories\\'.ucfirst($method).'Repository';
 
-    /**
-     * Build group repository
-     *
-     * @return GroupRepository
-     */
-    public function group()
-    {
-        return $this->repositoryFactory(GroupRepository::class);
-    }
+        if (!class_exists($className)) {
+            throw new MethodNotImplementedException("Repository $method is not implemented");
+        }
 
-    /**
-     * Build tag repository
-     *
-     * @return TagRepository
-     */
-    public function tag()
-    {
-        return $this->repositoryFactory(TagRepository::class);
-    }
-
-    /**
-     * Build revision repository
-     *
-     * @return RevisionRepository
-     */
-    public function revision()
-    {
-        return $this->repositoryFactory(RevisionRepository::class);
-    }
-
-    /**
-     * Build license repository
-     *
-     * @return RevisionRepository
-     */
-    public function license()
-    {
-        return $this->repositoryFactory(LicenseRepository::class);
-    }
-
-
-    /**
-     * Build organization repository
-     */
-    public function organization()
-    {
-        return $this->repositoryFactory(OrganizationRepository::class);
+        return $this->repositoryFactory($className);
     }
 
     /**

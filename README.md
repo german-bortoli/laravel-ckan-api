@@ -76,10 +76,27 @@ CkanApi::dataset()->delete('ref-id');
 CkanApi::dataset()->revision_list('ref-id');
 ```
 
+Example to upload a resource into a package
+
+```php
+        $data = [
+            'url' => 'https://recursos-data.buenosaires.gob.ar/ckan2/distritos-escolares/distritos-escolares.csv',
+            'clear_upload' => true,
+            'package_id' => 'ckan-api-test-338',
+            'name' => 'Buenos Aires - Distritos Escolares',
+            'format' => 'CSV',
+            'description' => 'Límites y ubicación geográfica de los distritos escolares de la Ciudad que surgieron a partir de la Ley de Educación Común (Ley N° 1.420/1884). Actualmente rige la división establecida por el Decreto Nº 7.475/80.',
+        ];
+
+        return CkanApi::resource()->create($data);
+
+```
+
 All possibles resources are:
 
 ```php
 CkanApi::dataset()
+CkanApi::resource()
 CkanApi::group()
 CkanApi::tag()
 CkanApi::revision()

@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 class BaseRepository
 {
     use RestApiTrait;
+
     /**
      * URI Api endpoint
      * @var string
@@ -57,7 +58,6 @@ class BaseRepository
         $this->client = $client;
     }
 
-
     /**
      * @return string
      */
@@ -67,8 +67,9 @@ class BaseRepository
     }
 
     /**
-     * Set uri
-     * @param $uriToSet
+     * Set current uri to use for api calls
+     *
+     * @param string $uriToSet
      */
     protected function setUri($uriToSet)
     {
@@ -76,9 +77,8 @@ class BaseRepository
 
         array_push($uri_parts, 'api');
         array_push($uri_parts, config('ckan_api.api_version'));
-        array_push($uri_parts, trim(rtrim($uriToSet, '/'), '/'));
+        array_push($uri_parts, trim($uriToSet, '/'));
 
-        // Clean empty results
         $uri_parts = array_filter($uri_parts);
 
         $this->uri = implode('/', $uri_parts);
@@ -93,6 +93,23 @@ class BaseRepository
     protected function responseToJson(ResponseInterface $response)
     {
         return json_decode((string) $response->getBody(), true);
+    }
+
+    /**
+     * Converts data to multipart option for guzzle
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function dataToMultipart(array $data = [])
+    {
+        $multipart = [];
+
+        foreach($data as $name => $contents) {
+            array_push($multipart, ['name' => $name, 'contents' => $contents]);
+        }
+
+        return $multipart;
     }
 
 }

@@ -30,12 +30,16 @@ trait RestApiTrait
      * Create a resource
      *
      * @param array $data
+     * @param array $multipart
      * @return array
      */
     public function create(array $data = [])
     {
         $this->setActionUri(__FUNCTION__);
-        return $this->responseToJson($this->client->post($this->uri, ['json' => $data]));
+
+        return $this->responseToJson($this->client->post($this->uri, [
+            'json' => $data,
+        ]));
     }
 
     /**
@@ -73,6 +77,7 @@ trait RestApiTrait
      * Update a resource
      *
      * @param array $data
+     * @param array $multipart
      * @return array
      */
     public function update(array $data = [])
