@@ -44,7 +44,7 @@ class CkanApiClient
      */
     public function __call($method, $arguments)
     {
-        $className = 'Germanazo\CkanApi\Repositories\\'.ucfirst($method).'Repository';
+        $className = 'Germanazo\CkanApi\Repositories\\'.ucfirst(camel_case($method)).'Repository';
 
         if (!class_exists($className)) {
             throw new MethodNotImplementedException("Repository $method is not implemented");
