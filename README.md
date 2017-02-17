@@ -1,9 +1,5 @@
 # Laravel api client for ckan
 
-## WIP
-
-This package is under development
-
 **TODO:**
  - Implement unit tests.
  - Package documentation.
@@ -116,6 +112,7 @@ CkanApi::tag()
 CkanApi::revision()
 CkanApi::license()
 CkanApi::organization()
+CkanApi::user()
 ```
 
 All resources has enabled the methods, all, show, create, update, delete, but not every endpoint allows it, so it will throw an exception.

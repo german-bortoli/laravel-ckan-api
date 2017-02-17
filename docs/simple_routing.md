@@ -253,4 +253,52 @@ Route::group(['prefix' => 'organizations'], function () {
         return CkanApi::organization()->delete('fbd4cdad-d31d-422a-8ad1-98ee03c2423c');
     });
 });
+
+
+
+/**
+ * CKAN ORGANIZATIONS
+ */
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/', function (Request $request) {
+
+        $data = [
+            'offset' => $request->input('offset', 0),
+        ];
+
+        return CkanApi::user()->all($data);
+    });
+
+
+    Route::get('/{id}', function ($id) {
+        return CkanApi::user()->show($id, [
+            'include_extras' => true,
+            'include_users' => true,
+            'include_tags' => true,
+        ]);
+    });
+
+    Route::post('/', function () {
+        $rnd = rand(1,1999);
+        return CkanApi::user()->create([
+            'display_name' => 'Api User '.$rnd,
+            'password' => 'demo',
+            'name' => 'ckan-api-user-'.$rnd,
+            'email' => 'apiuser-'.$rnd.'@germanazo.com',
+            'sysadmin' => false,
+        ]);
+    });
+
+    Route::put('/', function () {
+        return CkanApi::user()->update([
+            'id' => '30850bae-1484-4046-84cb-ffed4b3c6562',
+            'password' => 'admin123',
+            'email' => 'apiuser-edited@germanazo.com',
+        ]);
+    });
+
+    Route::delete('/', function () {
+        return CkanApi::user()->delete('653e3982-10d5-4d0a-a2c2-6c9c6bdd157e');
+    });
+});
 ```

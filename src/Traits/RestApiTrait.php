@@ -2,6 +2,9 @@
 
 namespace Germanazo\CkanApi\Traits;
 
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+
 trait RestApiTrait
 {
     /**
@@ -11,8 +14,7 @@ trait RestApiTrait
      */
     public function search($data = [])
     {
-        $this->setActionUri(__FUNCTION__);
-        return $this->query($data);
+        return $this->query(__FUNCTION__, $data);
     }
 
     /**
@@ -22,8 +24,7 @@ trait RestApiTrait
      */
     public function list($data = [])
     {
-        $this->setActionUri(__FUNCTION__);
-        return $this->query($data);
+        return $this->query(__FUNCTION__, $data);
     }
 
     /**
@@ -35,11 +36,7 @@ trait RestApiTrait
      */
     public function create(array $data = [])
     {
-        $this->setActionUri(__FUNCTION__);
-
-        return $this->responseToJson($this->client->post($this->uri, [
-            'json' => $data,
-        ]));
+        return $this->doPostAction(__FUNCTION__, $data);
     }
 
     /**
@@ -50,11 +47,7 @@ trait RestApiTrait
      */
     public function delete($id)
     {
-        $this->setActionUri(__FUNCTION__);
-
-        return $this->responseToJson($this->client->post($this->uri, [
-            'json' => ['id' => $id],
-        ]));
+        return $this->doPostAction(__FUNCTION__, ['id' => $id]);
     }
 
     /**
@@ -68,9 +61,7 @@ trait RestApiTrait
     {
         $data = ['id' => $id] + $params;
 
-        $this->setActionUri(__FUNCTION__);
-
-        return $this->query($data);
+        return $this->query(__FUNCTION__, $data);
     }
 
     /**
@@ -82,12 +73,42 @@ trait RestApiTrait
      */
     public function update(array $data = [])
     {
-        $this->setActionUri(__FUNCTION__);
-
-        return $this->responseToJson($this->client->post($this->uri, [
-            'json' => $data,
-        ]));
+        return $this->doPostAction(__FUNCTION__, $data);
     }
+
+
+    /**
+     * Set action url
+     *
+     * @param string $action
+     */
+    protected function setActionUri($action)
+    {
+        $this->setUri("action/{$this->action_name}_{$action}");
+    }
+
+    /**
+     * Create or update a resource
+     *
+     * @param string $uri
+     * @param array $data
+     * @return array
+     */
+    protected function doPostAction($uri, array $data = [])
+    {
+        $this->setActionUri($uri);
+
+        try {
+            $response = $this->client->post($this->uri, ['json' => $data]);
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+        } catch (ServerException $e) {
+            $response = $e->getResponse();
+        }
+
+        return $this->responseToJson($response);
+    }
+
 
     /**
      * Get a simple query
@@ -95,16 +116,18 @@ trait RestApiTrait
      * @param array $data
      * @return mixed
      */
-    protected function query($data = [])
+    protected function query($uri, $data = [])
     {
-        return $this->responseToJson($this->client->get($this->uri, [
-            'query' => $data,
-        ]));
-    }
+        $this->setActionUri($uri);
 
+        try {
+            $response = $this->client->get($this->uri, ['query' => $data]);
+        } catch(ClientException $e) {
+            $response = $e->getResponse();
+        } catch(ServerException $e) {
+            $response = $e->getResponse();
+        }
 
-    protected function setActionUri($action)
-    {
-        $this->setUri("action/{$this->action_name}_{$action}");
+        return $this->responseToJson($response);
     }
 }

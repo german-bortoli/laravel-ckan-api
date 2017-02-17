@@ -41,8 +41,6 @@ class DatasetRepository extends BaseRepository
      */
     public function revision_list($id)
     {
-        $this->setActionUri(__FUNCTION__);
-
-        return $this->query(['id' => $id]);
+        return $this->query(__FUNCTION__, ['id' => $id]);
     }
 }
