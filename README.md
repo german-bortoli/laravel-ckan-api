@@ -115,7 +115,7 @@ CkanApi::organization()
 CkanApi::user()
 ```
 
-All resources has enabled the methods, all, show, create, update, delete, but not every endpoint allows it, so it will throw an exception.
+All resources has the following methods enabled, `all, show, create, update, delete`, but not every endpoint allows some of them, so it will throw an exception.
 
 See more examples at [docs/simple_routing.md](docs/simple_routing.md)
 
